@@ -3,7 +3,6 @@ package com.stick.gsliu.javaqueue;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.stick.gsliu.javaqueue.Concurrent.ConcurrentUtil;
 import com.stick.gsliu.javaqueue.queue.Consumer;
@@ -33,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
-        ConcurrentUtil.test();
+        // ConcurrentUtil.testCountDownLatch();
+        ConcurrentUtil.testCyclicBarrier();
     }
 
     private void init() {
