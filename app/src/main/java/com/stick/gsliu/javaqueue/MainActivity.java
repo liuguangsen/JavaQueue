@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         init();
 
         // ConcurrentUtil.testCountDownLatch();
-        ConcurrentUtil.testCyclicBarrier();
+        ConcurrentUtil.testSemaphore();
     }
 
     private void init() {

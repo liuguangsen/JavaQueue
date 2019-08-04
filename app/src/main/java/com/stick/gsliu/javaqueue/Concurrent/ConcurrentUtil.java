@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.Semaphore;
 
 public class ConcurrentUtil {
     // 测试 CountDownLatch api
@@ -75,5 +76,36 @@ public class ConcurrentUtil {
                 }
             }).start();
         }
+    }
+
+    /**
+     * Semaphore 控制允许的线程数目，独立的线程调用 acquire 获取一个(Semaphore 增加一个)，使用完毕 需要调用release（Semaphore 释放一个）
+     * 简单来说就是Semaphore 如果数目已经满了， 那么独立线程调用 acquire 会阻塞，除非加一个超时
+     */
+    public static void testSemaphore() {
+        final Semaphore semaphore = new Semaphore(2);
+        for (int i = 0;i < 1;i++) {
+            final int finalI = i;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Log.d(TAG, "士兵 " + (finalI + 1) + " 等待！" + semaphore.getQueueLength());
+                        semaphore.acquire();
+                        Log.d(TAG, "士兵 " + (finalI + 1) + " 吃饭！" + semaphore.getQueueLength());
+                        Thread.sleep(5000);
+                        semaphore.release();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }
